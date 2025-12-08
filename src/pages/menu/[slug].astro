@@ -90,8 +90,6 @@ function getTypeLabel(type: string): string {
             <p class="menu-item-description">{menuItem.description}</p>
           )}
 
-          <p class="menu-item-price">{formatPrice(menuItem.price)}</p>
-
           {!menuItem.available && (
             <p class="menu-item-unavailable">Currently Unavailable</p>
           )}
