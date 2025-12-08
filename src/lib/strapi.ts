@@ -105,6 +105,9 @@ interface SiteSettings {
   heroImage?: {
     url: string;
   };
+  mapImage?: {
+    url: string;
+  };
 }
 
 interface StrapiSingleResponse<T> {

@@ -4,14 +4,18 @@ interface Props {
   tiktokUrl?: string;
   facebookUrl?: string;
   address?: string;
+  mapImageUrl?: string;
 }
 
 const {
   instagramUrl = 'https://instagram.com/emandmecafe',
   tiktokUrl = 'https://tiktok.com/@emandmecafe',
   facebookUrl,
-  address = 'Nashville, Tennessee'
+  address = 'Nashville, Tennessee',
+  mapImageUrl
 } = Astro.props;
+
+const defaultMapImage = 'https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/-86.7816,36.1627,12,0/400x200?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 ---
 
 <section class="social-media section">
@@ -26,8 +30,8 @@ const {
     >
       <div class="map-placeholder">
         <img
-          src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/-86.7816,36.1627,12,0/400x200?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
-          alt={`Map of Nashville, Tennessee`}
+          src={mapImageUrl || defaultMapImage}
+          alt={`Map of ${address}`}
         />
         <div class="map-overlay">
           <span class="map-pin">📍</span>

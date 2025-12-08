@@ -6,7 +6,7 @@ import MenuPreview from '../components/MenuPreview.astro';
 import SocialMedia from '../components/SocialMedia.astro';
 import Newsletter from '../components/Newsletter.astro';
 import Footer from '../components/Footer.astro';
-import { getMenuItems, getSiteSettings } from '../lib/strapi';
+import { getMenuItems, getSiteSettings, STRAPI_URL } from '../lib/strapi';
 
 let menuItems = [];
 let siteSettings = null;
@@ -29,6 +29,16 @@ try {
 
 // Get first 4 items for preview
 const previewItems = menuItems.slice(0, 4);
+
+// Get map image URL from settings
+function getMapImageUrl(): string | undefined {
+  if (siteSettings?.mapImage?.url) {
+    return siteSettings.mapImage.url.startsWith('http')
+      ? siteSettings.mapImage.url
+      : `${STRAPI_URL}${siteSettings.mapImage.url}`;
+  }
+  return undefined;
+}
 
 // Dynamic page metadata
 const pageTitle = siteSettings?.siteName
@@ -55,6 +65,7 @@ const pageDescription = siteSettings?.tagline
           tiktokUrl={siteSettings?.tiktokUrl}
           facebookUrl={siteSettings?.facebookUrl}
           address={siteSettings?.address}
+          mapImageUrl={getMapImageUrl()}
         />
       </div>
 
