@@ -1,0 +1,84 @@
+---
+import type { MenuItem } from '../lib/strapi';
+
+interface Props {
+  items: MenuItem[];
+}
+
+const { items } = Astro.props;
+
+// Placeholder images for menu items (until real images are uploaded)
+const placeholderImages: Record<string, string> = {
+  'ca-phe-sua-da': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=300&fit=crop',
+  'bac-xiu': 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop',
+  'egg-coffee': 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=300&fit=crop',
+  'banh-mi-sliders': 'https://images.unsplash.com/photo-1600688640154-9619e002df30?w=300&h=300&fit=crop',
+};
+---
+
+<section class="menu-preview section">
+  <h2 class="section-title">Menu Preview</h2>
+
+  <div class="menu-grid">
+    {items.map((item) => (
+      <div class="menu-item">
+        <div class="menu-image-container">
+          <img
+            src={item.image?.url || placeholderImages[item.slug] || 'https://via.placeholder.com/300'}
+            alt={item.name}
+            class="menu-image"
+            loading="lazy"
+          />
+        </div>
+        <h3 class="menu-name">{item.name}</h3>
+      </div>
+    ))}
+  </div>
+
+  <div class="text-center" style="margin-top: var(--spacing-lg);">
+    <a href="/menu" class="btn btn-outline">View Full Menu</a>
+  </div>
+</section>
+
+<style>
+  .menu-preview {
+    background-color: var(--color-cream);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .menu-item {
+    text-align: center;
+  }
+
+  .menu-image-container {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--color-navy);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .menu-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .menu-item:hover .menu-image {
+    transform: scale(1.05);
+  }
+
+  .menu-name {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+</style>

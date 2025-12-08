@@ -1,0 +1,111 @@
+---
+---
+
+<header class="header">
+  <div class="logo-container">
+    <div class="logo">
+      <div class="logo-circle">
+        <span class="logo-text">Em<br/>&<br/>Me</span>
+      </div>
+    </div>
+    <h1 class="brand-name">Em & Me</h1>
+    <p class="brand-tagline">Vietnamese Cafe & Bites.</p>
+  </div>
+
+  <p class="hero-text">Rooted in Family, Served with Love.</p>
+  <p class="location">Now brewing in Nashville, Tennessee.</p>
+
+  <a href="#signup" class="btn btn-primary">Join our SMS & Email List</a>
+</header>
+
+<style>
+  .header {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    background-color: var(--color-cream);
+  }
+
+  .logo-container {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .logo-circle {
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--color-navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--color-cream);
+  }
+
+  .logo-circle::before {
+    content: '';
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border: 1px solid var(--color-navy);
+    border-radius: 50%;
+  }
+
+  .logo-circle::after {
+    content: '';
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border: 2px solid var(--color-navy);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+
+  .logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .brand-name {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .brand-tagline {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-navy);
+    font-style: italic;
+  }
+
+  .hero-text {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--color-navy);
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+  }
+
+  .location {
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  @media (max-width: 768px) {
+    .brand-name {
+      font-size: 2rem;
+    }
+
+    .brand-tagline {
+      font-size: 1.25rem;
+    }
+  }
+</style>

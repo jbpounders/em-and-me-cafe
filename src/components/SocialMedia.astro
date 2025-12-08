@@ -1,0 +1,69 @@
+---
+---
+
+<section class="social-media section">
+  <h2 class="section-title">Social Media</h2>
+
+  <div class="map-container">
+    <div class="map-placeholder">
+      <img
+        src="https://maps.googleapis.com/maps/api/staticmap?center=Nashville,TN&zoom=13&size=400x200&maptype=roadmap&key=YOUR_API_KEY"
+        alt="Map of Nashville, Tennessee"
+        onerror="this.src='https://via.placeholder.com/400x200?text=Nashville,+TN'"
+      />
+    </div>
+    <p class="location-text">Nashville, Tennessee</p>
+  </div>
+
+  <div class="social-buttons">
+    <a href="https://instagram.com/emandmecafe" target="_blank" rel="noopener" class="btn btn-outline social-btn">
+      Follow Us on Instagram
+    </a>
+    <a href="https://tiktok.com/@emandmecafe" target="_blank" rel="noopener" class="btn btn-outline social-btn">
+      Follow Us on TikTok
+    </a>
+  </div>
+</section>
+
+<style>
+  .social-media {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  .map-container {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .map-placeholder {
+    border: 2px solid var(--color-navy);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .map-placeholder img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: var(--color-cream-dark);
+  }
+
+  .location-text {
+    font-weight: 500;
+    color: var(--color-navy);
+  }
+
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .social-btn {
+    width: 100%;
+  }
+</style>
