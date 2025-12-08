@@ -1,11 +1,21 @@
 ---
+interface Props {
+  siteName?: string;
+  tagline?: string;
+}
+
+const {
+  siteName = 'Em & Me Vietnamese Cafe & Bites',
+  tagline = 'Rooted in Family, Served with Love.'
+} = Astro.props;
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="footer-content">
-    <p>&copy; {currentYear} Em & Me Vietnamese Cafe & Bites. All rights reserved.</p>
-    <p class="footer-tagline">Rooted in Family, Served with Love.</p>
+    <p>&copy; {currentYear} {siteName}. All rights reserved.</p>
+    <p class="footer-tagline">{tagline}</p>
   </div>
 </footer>
 

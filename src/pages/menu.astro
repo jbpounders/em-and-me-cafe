@@ -1,0 +1,233 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getMenuItems, getSiteSettings, STRAPI_URL } from '../lib/strapi';
+import type { MenuItem } from '../lib/strapi';
+
+let menuItems: MenuItem[] = [];
+let siteSettings = null;
+
+try {
+  [menuItems, siteSettings] = await Promise.all([
+    getMenuItems(),
+    getSiteSettings()
+  ]);
+} catch (error) {
+  console.error('Failed to fetch content:', error);
+}
+
+const pageTitle = siteSettings?.siteName
+  ? `Menu | ${siteSettings.siteName}`
+  : 'Menu | Em & Me Vietnamese Cafe & Bites';
+
+// Group items by type
+const drinks = menuItems.filter(item => item.type === 'drink');
+const bites = menuItems.filter(item => item.type === 'bite');
+const other = menuItems.filter(item => item.type === 'other');
+
+// Placeholder images
+const placeholderImages: Record<string, string> = {
+  'ca-phe-sua-da': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=300&fit=crop',
+  'bac-xiu': 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop',
+  'egg-coffee': 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=300&fit=crop',
+  'banh-mi-sliders': 'https://images.unsplash.com/photo-1600688640154-9619e002df30?w=300&h=300&fit=crop',
+  'pho-bo': 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300&h=300&fit=crop',
+  'goi-cuon': 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=300&fit=crop',
+  'tra-da': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&h=300&fit=crop',
+};
+
+function getImageUrl(item: MenuItem): string {
+  if (item.image?.url) {
+    return item.image.url.startsWith('http') ? item.image.url : `${STRAPI_URL}${item.image.url}`;
+  }
+  return placeholderImages[item.slug] || 'https://via.placeholder.com/300?text=Menu+Item';
+}
+
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+}
+---
+
+<Layout title={pageTitle}>
+  <main>
+    <Header
+      siteName={siteSettings?.siteName}
+      tagline={siteSettings?.tagline}
+      address={siteSettings?.address}
+    />
+
+    <section class="menu-section">
+      <h1 class="page-title">Our Menu</h1>
+
+      {drinks.length > 0 && (
+        <div class="menu-category">
+          <h2 class="category-title">Drinks</h2>
+          <div class="menu-grid">
+            {drinks.map((item) => (
+              <div class="menu-card">
+                <div class="menu-image-container">
+                  <img
+                    src={getImageUrl(item)}
+                    alt={item.name}
+                    class="menu-image"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="menu-info">
+                  <h3 class="menu-name">{item.name}</h3>
+                  {item.description && <p class="menu-description">{item.description}</p>}
+                  <p class="menu-price">{formatPrice(item.price)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {bites.length > 0 && (
+        <div class="menu-category">
+          <h2 class="category-title">Bites</h2>
+          <div class="menu-grid">
+            {bites.map((item) => (
+              <div class="menu-card">
+                <div class="menu-image-container">
+                  <img
+                    src={getImageUrl(item)}
+                    alt={item.name}
+                    class="menu-image"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="menu-info">
+                  <h3 class="menu-name">{item.name}</h3>
+                  {item.description && <p class="menu-description">{item.description}</p>}
+                  <p class="menu-price">{formatPrice(item.price)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {other.length > 0 && (
+        <div class="menu-category">
+          <h2 class="category-title">Other</h2>
+          <div class="menu-grid">
+            {other.map((item) => (
+              <div class="menu-card">
+                <div class="menu-image-container">
+                  <img
+                    src={getImageUrl(item)}
+                    alt={item.name}
+                    class="menu-image"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="menu-info">
+                  <h3 class="menu-name">{item.name}</h3>
+                  {item.description && <p class="menu-description">{item.description}</p>}
+                  <p class="menu-price">{formatPrice(item.price)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="back-link">
+        <a href="/" class="btn btn-outline">Back to Home</a>
+      </div>
+    </section>
+
+    <Footer
+      siteName={siteSettings?.siteName}
+      tagline={siteSettings?.tagline}
+    />
+  </main>
+</Layout>
+
+<style>
+  .menu-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: 2.5rem;
+  }
+
+  .menu-category {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .category-title {
+    font-size: 1.75rem;
+    color: var(--color-navy);
+    border-bottom: 2px solid var(--color-navy);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .menu-card {
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-image-container {
+    width: 100%;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+  }
+
+  .menu-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .menu-info {
+    padding: var(--spacing-md);
+  }
+
+  .menu-name {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-navy);
+  }
+
+  .menu-description {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .menu-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+  }
+</style>

@@ -1,27 +1,59 @@
 ---
+interface Props {
+  instagramUrl?: string;
+  tiktokUrl?: string;
+  facebookUrl?: string;
+  address?: string;
+}
+
+const {
+  instagramUrl = 'https://instagram.com/emandmecafe',
+  tiktokUrl = 'https://tiktok.com/@emandmecafe',
+  facebookUrl,
+  address = 'Nashville, Tennessee'
+} = Astro.props;
 ---
 
 <section class="social-media section">
   <h2 class="section-title">Social Media</h2>
 
   <div class="map-container">
-    <div class="map-placeholder">
-      <img
-        src="https://maps.googleapis.com/maps/api/staticmap?center=Nashville,TN&zoom=13&size=400x200&maptype=roadmap&key=YOUR_API_KEY"
-        alt="Map of Nashville, Tennessee"
-        onerror="this.src='https://via.placeholder.com/400x200?text=Nashville,+TN'"
-      />
-    </div>
-    <p class="location-text">Nashville, Tennessee</p>
+    <a
+      href="https://www.google.com/maps/search/?api=1&query=Nashville+Tennessee"
+      target="_blank"
+      rel="noopener"
+      class="map-link"
+    >
+      <div class="map-placeholder">
+        <img
+          src="https://images.unsplash.com/photo-1545419913-775e3e5e9669?w=400&h=200&fit=crop"
+          alt={`Nashville, Tennessee skyline`}
+        />
+        <div class="map-overlay">
+          <span class="map-pin">📍</span>
+          <span class="map-text">View on Maps</span>
+        </div>
+      </div>
+    </a>
+    <p class="location-text">{address}</p>
   </div>
 
   <div class="social-buttons">
-    <a href="https://instagram.com/emandmecafe" target="_blank" rel="noopener" class="btn btn-outline social-btn">
-      Follow Us on Instagram
-    </a>
-    <a href="https://tiktok.com/@emandmecafe" target="_blank" rel="noopener" class="btn btn-outline social-btn">
-      Follow Us on TikTok
-    </a>
+    {instagramUrl && (
+      <a href={instagramUrl} target="_blank" rel="noopener" class="btn btn-outline social-btn">
+        Follow Us on Instagram
+      </a>
+    )}
+    {tiktokUrl && (
+      <a href={tiktokUrl} target="_blank" rel="noopener" class="btn btn-outline social-btn">
+        Follow Us on TikTok
+      </a>
+    )}
+    {facebookUrl && (
+      <a href={facebookUrl} target="_blank" rel="noopener" class="btn btn-outline social-btn">
+        Follow Us on Facebook
+      </a>
+    )}
   </div>
 </section>
 
@@ -38,11 +70,17 @@
     margin-bottom: var(--spacing-lg);
   }
 
+  .map-link {
+    display: block;
+    text-decoration: none;
+  }
+
   .map-placeholder {
     border: 2px solid var(--color-navy);
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: var(--spacing-sm);
+    position: relative;
   }
 
   .map-placeholder img {
@@ -50,6 +88,38 @@
     height: 150px;
     object-fit: cover;
     background: var(--color-cream-dark);
+    transition: transform 0.3s ease;
+  }
+
+  .map-link:hover .map-placeholder img {
+    transform: scale(1.05);
+  }
+
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 54, 93, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .map-link:hover .map-overlay {
+    opacity: 1;
+  }
+
+  .map-pin {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .map-text {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 
   .location-text {

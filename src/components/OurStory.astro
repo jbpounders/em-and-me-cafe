@@ -1,4 +1,12 @@
 ---
+interface Props {
+  text?: string;
+}
+
+const { text } = Astro.props;
+
+const defaultText = 'Em means "little one." Mẹ means "mother." Spelled backward, Em becomes Me: We are inspired by the vibrant flavors of Vietnam, and the warmth of family.';
+const storyText = text || defaultText;
 ---
 
 <section class="our-story section">
@@ -6,7 +14,7 @@
 
   <div class="story-content">
     <p>
-      Em means "little one." Mẹ means "mother." Spelled backward, Em becomes Me: We are inspired by the vibrant flavors of Vietnam, and the warmth of family.
+      {storyText}
     </p>
   </div>
 

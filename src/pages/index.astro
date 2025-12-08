@@ -6,14 +6,18 @@ import MenuPreview from '../components/MenuPreview.astro';
 import SocialMedia from '../components/SocialMedia.astro';
 import Newsletter from '../components/Newsletter.astro';
 import Footer from '../components/Footer.astro';
-import { getMenuItems } from '../lib/strapi';
+import { getMenuItems, getSiteSettings } from '../lib/strapi';
 
 let menuItems = [];
+let siteSettings = null;
 
 try {
-  menuItems = await getMenuItems();
+  [menuItems, siteSettings] = await Promise.all([
+    getMenuItems(),
+    getSiteSettings()
+  ]);
 } catch (error) {
-  console.error('Failed to fetch menu items:', error);
+  console.error('Failed to fetch content:', error);
   // Fallback data for when Strapi is not available
   menuItems = [
     { id: 1, name: 'Cà Phê Sữa Đá', slug: 'ca-phe-sua-da', type: 'drink', price: 5.50 },
@@ -25,16 +29,33 @@ try {
 
 // Get first 4 items for preview
 const previewItems = menuItems.slice(0, 4);
+
+// Dynamic page metadata
+const pageTitle = siteSettings?.siteName
+  ? `${siteSettings.siteName} | ${siteSettings.address || 'Nashville, TN'}`
+  : 'Em & Me Vietnamese Cafe & Bites | Nashville, TN';
+const pageDescription = siteSettings?.tagline
+  ? `${siteSettings.tagline} Authentic Vietnamese coffee and bites in ${siteSettings.address || 'Nashville, Tennessee'}.`
+  : 'Rooted in Family, Served with Love. Authentic Vietnamese coffee and bites in Nashville, Tennessee.';
 ---
 
-<Layout title="Em & Me Vietnamese Cafe & Bites | Nashville, TN">
+<Layout title={pageTitle} description={pageDescription}>
   <main>
-    <Header />
+    <Header
+      siteName={siteSettings?.siteName}
+      tagline={siteSettings?.tagline}
+      address={siteSettings?.address}
+    />
 
     <div class="content-grid">
       <div class="left-column">
-        <OurStory />
-        <SocialMedia />
+        <OurStory text={siteSettings?.ourStoryText} />
+        <SocialMedia
+          instagramUrl={siteSettings?.instagramUrl}
+          tiktokUrl={siteSettings?.tiktokUrl}
+          facebookUrl={siteSettings?.facebookUrl}
+          address={siteSettings?.address}
+        />
       </div>
 
       <div class="right-column">
@@ -43,7 +64,10 @@ const previewItems = menuItems.slice(0, 4);
       </div>
     </div>
 
-    <Footer />
+    <Footer
+      siteName={siteSettings?.siteName}
+      tagline={siteSettings?.tagline}
+    />
   </main>
 </Layout>
 

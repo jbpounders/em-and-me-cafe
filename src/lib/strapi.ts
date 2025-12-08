@@ -79,5 +79,41 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
   return response.data[0] || null;
 }
 
+interface SiteSettings {
+  id: number;
+  documentId: string;
+  siteName: string;
+  tagline?: string;
+  ourStoryText: string;
+  aboutPageContent?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  tiktokUrl?: string;
+  logo?: {
+    url: string;
+  };
+  heroImage?: {
+    url: string;
+  };
+}
+
+interface StrapiSingleResponse<T> {
+  data: T;
+  meta: object;
+}
+
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  try {
+    const response = await fetchStrapi<StrapiSingleResponse<SiteSettings>>('/site-setting?populate=*');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch site settings:', error);
+    return null;
+  }
+}
+
 export { STRAPI_URL };
-export type { MenuItem, Page };
+export type { MenuItem, Page, SiteSettings };

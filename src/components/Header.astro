@@ -1,4 +1,15 @@
 ---
+interface Props {
+  siteName?: string;
+  tagline?: string;
+  address?: string;
+}
+
+const {
+  siteName = 'Em & Me',
+  tagline = 'Rooted in Family, Served with Love.',
+  address = 'Nashville, Tennessee'
+} = Astro.props;
 ---
 
 <header class="header">
@@ -8,12 +19,12 @@
         <span class="logo-text">Em<br/>&<br/>Me</span>
       </div>
     </div>
-    <h1 class="brand-name">Em & Me</h1>
+    <h1 class="brand-name">{siteName.replace('Vietnamese Café & Bites', '').replace('Mẹ', 'Me').trim()}</h1>
     <p class="brand-tagline">Vietnamese Cafe & Bites.</p>
   </div>
 
-  <p class="hero-text">Rooted in Family, Served with Love.</p>
-  <p class="location">Now brewing in Nashville, Tennessee.</p>
+  <p class="hero-text">{tagline}</p>
+  <p class="location">Now brewing in {address}.</p>
 
   <a href="#signup" class="btn btn-primary">Join our SMS & Email List</a>
 </header>

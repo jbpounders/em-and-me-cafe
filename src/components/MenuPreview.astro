@@ -1,5 +1,6 @@
 ---
 import type { MenuItem } from '../lib/strapi';
+import { STRAPI_URL } from '../lib/strapi';
 
 interface Props {
   items: MenuItem[];
@@ -7,13 +8,30 @@ interface Props {
 
 const { items } = Astro.props;
 
-// Placeholder images for menu items (until real images are uploaded)
+// Placeholder images for menu items (until real images are uploaded to Strapi)
 const placeholderImages: Record<string, string> = {
   'ca-phe-sua-da': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&h=300&fit=crop',
   'bac-xiu': 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&h=300&fit=crop',
   'egg-coffee': 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=300&fit=crop',
   'banh-mi-sliders': 'https://images.unsplash.com/photo-1600688640154-9619e002df30?w=300&h=300&fit=crop',
+  'pho-bo': 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300&h=300&fit=crop',
+  'goi-cuon': 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=300&fit=crop',
+  'tra-da': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&h=300&fit=crop',
 };
+
+// Helper to get the full image URL from Strapi
+function getImageUrl(item: MenuItem): string {
+  if (item.image?.url) {
+    // If it's a relative URL, prepend the Strapi URL
+    return item.image.url.startsWith('http') ? item.image.url : `${STRAPI_URL}${item.image.url}`;
+  }
+  return placeholderImages[item.slug] || 'https://via.placeholder.com/300?text=Menu+Item';
+}
+
+// Format price as currency
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+}
 ---
 
 <section class="menu-preview section">
@@ -21,17 +39,20 @@ const placeholderImages: Record<string, string> = {
 
   <div class="menu-grid">
     {items.map((item) => (
-      <div class="menu-item">
-        <div class="menu-image-container">
-          <img
-            src={item.image?.url || placeholderImages[item.slug] || 'https://via.placeholder.com/300'}
-            alt={item.name}
-            class="menu-image"
-            loading="lazy"
-          />
+      <a href="/menu" class="menu-item-link">
+        <div class="menu-item">
+          <div class="menu-image-container">
+            <img
+              src={getImageUrl(item)}
+              alt={item.name}
+              class="menu-image"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="menu-name">{item.name}</h3>
+          <p class="menu-price">{formatPrice(item.price)}</p>
         </div>
-        <h3 class="menu-name">{item.name}</h3>
-      </div>
+      </a>
     ))}
   </div>
 
@@ -51,6 +72,12 @@ const placeholderImages: Record<string, string> = {
     gap: var(--spacing-lg);
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  .menu-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
   }
 
   .menu-item {
@@ -73,12 +100,19 @@ const placeholderImages: Record<string, string> = {
     transition: transform 0.3s ease;
   }
 
-  .menu-item:hover .menu-image {
+  .menu-item-link:hover .menu-image {
     transform: scale(1.05);
   }
 
   .menu-name {
     font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .menu-price {
+    font-size: 0.9rem;
+    color: var(--color-text);
     font-weight: 500;
   }
 </style>
