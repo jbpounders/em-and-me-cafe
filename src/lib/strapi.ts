@@ -67,6 +67,13 @@ export async function getMenuItemsByType(type: 'drink' | 'bite' | 'other'): Prom
   return response.data;
 }
 
+export async function getMenuItemBySlug(slug: string): Promise<MenuItem | null> {
+  const response = await fetchStrapi<StrapiResponse<MenuItem>>(
+    `/menu-items?filters[slug][$eq]=${slug}&populate=image`
+  );
+  return response.data[0] || null;
+}
+
 export async function getPages(): Promise<Page[]> {
   const response = await fetchStrapi<StrapiResponse<Page>>('/pages');
   return response.data;

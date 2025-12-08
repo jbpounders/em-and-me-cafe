@@ -65,21 +65,23 @@ function formatPrice(price: number): string {
           <h2 class="category-title">Drinks</h2>
           <div class="menu-grid">
             {drinks.map((item) => (
-              <div class="menu-card">
-                <div class="menu-image-container">
-                  <img
-                    src={getImageUrl(item)}
-                    alt={item.name}
-                    class="menu-image"
-                    loading="lazy"
-                  />
+              <a href={`/menu/${item.slug}`} class="menu-card-link">
+                <div class="menu-card">
+                  <div class="menu-image-container">
+                    <img
+                      src={getImageUrl(item)}
+                      alt={item.name}
+                      class="menu-image"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-info">
+                    <h3 class="menu-name">{item.name}</h3>
+                    {item.description && <p class="menu-description">{item.description}</p>}
+                    <p class="menu-price">{formatPrice(item.price)}</p>
+                  </div>
                 </div>
-                <div class="menu-info">
-                  <h3 class="menu-name">{item.name}</h3>
-                  {item.description && <p class="menu-description">{item.description}</p>}
-                  <p class="menu-price">{formatPrice(item.price)}</p>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -90,21 +92,23 @@ function formatPrice(price: number): string {
           <h2 class="category-title">Bites</h2>
           <div class="menu-grid">
             {bites.map((item) => (
-              <div class="menu-card">
-                <div class="menu-image-container">
-                  <img
-                    src={getImageUrl(item)}
-                    alt={item.name}
-                    class="menu-image"
-                    loading="lazy"
-                  />
+              <a href={`/menu/${item.slug}`} class="menu-card-link">
+                <div class="menu-card">
+                  <div class="menu-image-container">
+                    <img
+                      src={getImageUrl(item)}
+                      alt={item.name}
+                      class="menu-image"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-info">
+                    <h3 class="menu-name">{item.name}</h3>
+                    {item.description && <p class="menu-description">{item.description}</p>}
+                    <p class="menu-price">{formatPrice(item.price)}</p>
+                  </div>
                 </div>
-                <div class="menu-info">
-                  <h3 class="menu-name">{item.name}</h3>
-                  {item.description && <p class="menu-description">{item.description}</p>}
-                  <p class="menu-price">{formatPrice(item.price)}</p>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -115,21 +119,23 @@ function formatPrice(price: number): string {
           <h2 class="category-title">Other</h2>
           <div class="menu-grid">
             {other.map((item) => (
-              <div class="menu-card">
-                <div class="menu-image-container">
-                  <img
-                    src={getImageUrl(item)}
-                    alt={item.name}
-                    class="menu-image"
-                    loading="lazy"
-                  />
+              <a href={`/menu/${item.slug}`} class="menu-card-link">
+                <div class="menu-card">
+                  <div class="menu-image-container">
+                    <img
+                      src={getImageUrl(item)}
+                      alt={item.name}
+                      class="menu-image"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="menu-info">
+                    <h3 class="menu-name">{item.name}</h3>
+                    {item.description && <p class="menu-description">{item.description}</p>}
+                    <p class="menu-price">{formatPrice(item.price)}</p>
+                  </div>
                 </div>
-                <div class="menu-info">
-                  <h3 class="menu-name">{item.name}</h3>
-                  {item.description && <p class="menu-description">{item.description}</p>}
-                  <p class="menu-price">{formatPrice(item.price)}</p>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -178,6 +184,12 @@ function formatPrice(price: number): string {
     gap: var(--spacing-lg);
   }
 
+  .menu-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
   .menu-card {
     background: white;
     border: 2px solid var(--color-navy);
@@ -186,7 +198,7 @@ function formatPrice(price: number): string {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .menu-card:hover {
+  .menu-card-link:hover .menu-card {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }

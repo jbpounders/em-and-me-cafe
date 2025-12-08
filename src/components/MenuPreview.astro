@@ -39,7 +39,7 @@ function formatPrice(price: number): string {
 
   <div class="menu-grid">
     {items.map((item) => (
-      <a href="/menu" class="menu-item-link">
+      <a href={`/menu/${item.slug}`} class="menu-item-link">
         <div class="menu-item">
           <div class="menu-image-container">
             <img
