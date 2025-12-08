@@ -30,12 +30,12 @@ try {
 // Get first 4 items for preview
 const previewItems = menuItems.slice(0, 4);
 
-// Get map image URL from settings
-function getMapImageUrl(): string | undefined {
-  if (siteSettings?.mapImage?.url) {
-    return siteSettings.mapImage.url.startsWith('http')
-      ? siteSettings.mapImage.url
-      : `${STRAPI_URL}${siteSettings.mapImage.url}`;
+// Helper to get full image URL from Strapi
+function getStrapiImageUrl(imageField?: { url: string }): string | undefined {
+  if (imageField?.url) {
+    return imageField.url.startsWith('http')
+      ? imageField.url
+      : `${STRAPI_URL}${imageField.url}`;
   }
   return undefined;
 }
@@ -55,6 +55,7 @@ const pageDescription = siteSettings?.tagline
       siteName={siteSettings?.siteName}
       tagline={siteSettings?.tagline}
       address={siteSettings?.address}
+      logoUrl={getStrapiImageUrl(siteSettings?.logo)}
     />
 
     <div class="content-grid">
@@ -65,7 +66,7 @@ const pageDescription = siteSettings?.tagline
           tiktokUrl={siteSettings?.tiktokUrl}
           facebookUrl={siteSettings?.facebookUrl}
           address={siteSettings?.address}
-          mapImageUrl={getMapImageUrl()}
+          mapImageUrl={getStrapiImageUrl(siteSettings?.mapImage)}
         />
       </div>
 

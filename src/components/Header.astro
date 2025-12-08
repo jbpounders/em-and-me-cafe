@@ -3,21 +3,27 @@ interface Props {
   siteName?: string;
   tagline?: string;
   address?: string;
+  logoUrl?: string;
 }
 
 const {
   siteName = 'Em & Me',
   tagline = 'Rooted in Family, Served with Love.',
-  address = 'Nashville, Tennessee'
+  address = 'Nashville, Tennessee',
+  logoUrl
 } = Astro.props;
 ---
 
 <header class="header">
   <div class="logo-container">
     <div class="logo">
-      <div class="logo-circle">
-        <span class="logo-text">Em<br/>&<br/>Me</span>
-      </div>
+      {logoUrl ? (
+        <img src={logoUrl} alt={siteName} class="logo-image" />
+      ) : (
+        <div class="logo-circle">
+          <span class="logo-text">Em<br/>&<br/>Me</span>
+        </div>
+      )}
     </div>
     <h1 class="brand-name">{siteName.replace('Vietnamese Café & Bites', '').replace('Mẹ', 'Me').trim()}</h1>
     <p class="brand-tagline">Vietnamese Cafe & Bites.</p>
@@ -44,6 +50,14 @@ const {
     display: flex;
     justify-content: center;
     margin-bottom: var(--spacing-md);
+  }
+
+  .logo-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-navy);
   }
 
   .logo-circle {
