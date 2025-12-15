@@ -12,6 +12,10 @@ const {
   address = 'Nashville, Tennessee',
   logoUrl
 } = Astro.props;
+
+// Build Google Maps URL from address
+const mapsQuery = encodeURIComponent(address);
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 ---
 
 <header class="header">
@@ -25,12 +29,12 @@ const {
         </div>
       )}
     </div>
-    <h1 class="brand-name">{siteName.replace('Vietnamese Café & Bites', '').replace('Mẹ', 'Me').trim()}</h1>
-    <p class="brand-tagline">Vietnamese Cafe & Bites.</p>
+    <h1 class="brand-name">{siteName.replace('Vietnamese Café & Bites', '').trim()}</h1>
+    <p class="brand-tagline">Vietnamese Café & Bites.</p>
   </div>
 
   <p class="hero-text">{tagline}</p>
-  <p class="location">Now brewing in {address}.</p>
+  <p class="location">Opening summer 2026 @ <a href={mapsUrl} target="_blank" rel="noopener" class="location-link">{address}</a></p>
 
   <a href="#signup" class="btn btn-primary">Join our SMS & Email List</a>
 </header>
@@ -40,6 +44,8 @@ const {
     text-align: center;
     padding: var(--spacing-xl) var(--spacing-md);
     background-color: var(--color-cream);
+    position: relative;
+    overflow: hidden;
   }
 
   .logo-container {
@@ -122,6 +128,15 @@ const {
   .location {
     color: var(--color-text);
     margin-bottom: var(--spacing-lg);
+  }
+
+  .location-link {
+    color: var(--color-navy);
+    text-decoration: underline;
+  }
+
+  .location-link:hover {
+    color: var(--color-terracotta);
   }
 
   @media (max-width: 768px) {
